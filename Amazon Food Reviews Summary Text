@@ -1,0 +1,58 @@
+Amazon Food reviews project 
+
+For our big data class, we did a project on sentiment analysis, we used pyspark to code and mlib library provided by spark for our projects. As we know amazon allows users to view and write reviews about products. As time has progressed, the number of products as well as the number of reviews for each product have increased exponentially. However, simply looking at the rating score does not provide much information, and one would have to look into the text of the reviews in order to get useful insights.
+
+We obtained the dataset from kaggle and It was a huge dataset, having over 500 thousand reviews and the dataset span was over 13 years. We then identified the most important columns, some of them were 
+
+●	Helpfulness Numerator: number of users who found the review helpful
+
+●	Helpfulness Denominator: number of users who indicated if the review was helpful
+
+●	Rating by the user (Scale of 1 - 5)
+
+●	Summary of the review
+
+●	Text of the review
+
+
+These were the columns which helped us in our goal in understanding the sentiments of the reviews which were posted by the consumer on amazon
+
+Firstly we went through the data exploration part 
+1.	First we created a bar graph of user ratings per score over the dataset to analyze which score had the highest user rating 
+2.	Then we created unigram and bigram word clouds. This was to analyse which words were frequently used in each bucket and which word was associated with second other word
+
+Then we manipulated the data, we assigned score 3 as neutral sentiments and 1,2 as negative sentiments and 4,5 as positive sentiments 
+
+Then we did the cleaning of data.
+
+Case Normalization
+Our agenda was to lowercase each and every word in the reviews (NOT IMPORTANT)
+
+Tokenization 
+Tokenization is done to separate each and every word from a paragraph and make them into separate words
+
+Stop word removal 
+What a stop word remover does is that it removes all the common words which have no value to the analysis like I, am, the etc 
+Stemming 
+What stemming does is that it processes the words into its common form like for example vital comes out of vitality.
+
+Once our data was prepared, we did the Term Frequency –Inverse Document Frequency. We did this in pyspark using sparse metrics since there are null values in the input dataset. Term frequency is just the number of times the word occurs in a particular comment in a review and we applied formula for applying IDF. 
+
+TF - IDF creates a sparse metrics format RDD which is highly efficient in storage and computation as it only stores the places where there is a value 
+
+In python we know that there is a inbuilt library called vader sentiment for sentiment analysis. Vader Sentiment library provides four scores for a given text and later we can run the model we can compare it’s accuracy
+
+1.	Compound: It represents the polarity of the statement/text given ranging from 0 to 1
+
+2.	Negative: Negative sentiment score of the text given ranging from 0 to 1
+
+3.	Positive: Positive sentiment score of the text given ranging from 0 to 1
+
+4.	Neutral: Neutral sentiment score of the text given ranging from 0 to 1
+
+
+Now we took a random sample and we calculated sentiment score for each four parameters and then we plotted it. After that we ran different model like logistic regression and naïve bayes classification. We then used cross validation so that we can increase the accuracy. So what is a cross validation, let’s say we have 70 percent training data and 30 percent testing data so out of 70 percent we are doing the testing on 30 percent and 40 percent of the data from the training set
+
+Now once our code was ready, we used AWS platform services since our professor wanted us to check the scalability of the data and we can be familiar with AWS as well, Also AWS is able to handle larger dataset. We used two components of AWS which we used. One of them was S3 for storage and other one was EMR for spark clusters. We also tried to create EC2 instances but we were getting different kind of issues and because of the deadline approaching we finalized on EMR services and also they have inbuilt features. We uploaded our data and code in S3 bucket and processed the data by spark. We created the file and then converted It into .py and most of the python library were already imported into AWS cluster. We used the default settings like m3.Xlarge cluster because it creates cluster upto 16 gb of memory. And we uploaded the files on S3 buckets and we connected through putty and we got the data on cluster as S3 already gave us the url for every file on the cluster and then we ran our project and presented it to the professor. We also planned to scale it to multiple e-commerce websites like Zappos, Zulily, macy’s etc as a side project. 
+
+
